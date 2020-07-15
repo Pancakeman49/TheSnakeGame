@@ -13,9 +13,6 @@ namespace TheSnakeGame
 {
     public partial class Game : Form
     {
-        int horVelocity = 0;
-        int verVelocity = 0;
-        int step = 20;
         Area area = new Area();
         Snake snake = new Snake();
         Timer timerMainMove = new Timer();
@@ -29,7 +26,7 @@ namespace TheSnakeGame
         }
         private void InitializeTimer()
         {
-            timerMainMove.Interval = 500;
+            timerMainMove.Interval = 100;
             timerMainMove.Tick += new EventHandler(TimerMainMove_Tick);
             timerMainMove.Start();
         }
