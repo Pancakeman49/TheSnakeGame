@@ -10,6 +10,9 @@ namespace TheSnakeGame
 {
     class Snake
     {
+        public int HorizontalVelocity { get; set; } = 0;
+        public int VerticalVelocity { get; set; } = 0;
+        public int Step { get; set; } = 20;
         public List<PictureBox> snakePixels = new List<PictureBox>();
 
         public Snake()
@@ -42,5 +45,21 @@ namespace TheSnakeGame
                 spixels.BringToFront();
             }
         }
+        public void Move()
+        {
+            if (this.HorizontalVelocity == 0 && this.VerticalVelocity == 0)
+            {
+                return;
+            }
+            for (int i = snakePixels.Count - 1; i > 0; i--)
+            {
+                snakePixels[i].Location = snakePixels[i - 1].Location;
+            }
+            snakePixels[0].Left += this.HorizontalVelocity * this.Step;
+            snakePixels[0].Top += this.VerticalVelocity * this.Step;
+
+
+        }
+
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,11 +19,13 @@ namespace TheSnakeGame
         Area area = new Area();
         Snake snake = new Snake();
         Timer timerMainMove = new Timer();
+        
 
         public Game()
         {
             InitializeComponent();
             InitializeGame();
+            InitializeTimer();
         }
         private void InitializeTimer()
         {
@@ -32,7 +35,7 @@ namespace TheSnakeGame
         }
         private void TimerMainMove_Tick(object sender, EventArgs e)
         {
-
+            snake.Move();
         }
         private void InitializeGame()
         {
@@ -46,6 +49,43 @@ namespace TheSnakeGame
 
             //adding snake body
             snake.Render(this);
+
+            //keybord press handeler
+            this.KeyDown += Game_KeyDown;
+        }
+        private void Game_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.D:
+                    if (snake.HorizontalVelocity != -1)
+                    {
+                        snake.HorizontalVelocity = 1;
+                        snake.VerticalVelocity = 0;
+                    }
+                    break;
+                case Keys.A:
+                    if (snake.HorizontalVelocity != 1)
+                    {
+                        snake.HorizontalVelocity = -1;
+                        snake.VerticalVelocity = 0;
+                    }
+                    break;
+                case Keys.W:
+                    if (snake.VerticalVelocity != 1)
+                    {
+                        snake.HorizontalVelocity = 0;
+                        snake.VerticalVelocity = -1;
+                    }
+                    break;
+                case Keys.S:
+                    if (snake.VerticalVelocity != -1)
+                    {
+                        snake.HorizontalVelocity = 0;
+                        snake.VerticalVelocity = 1;
+                    }
+                    break;
+            }
         }
 
     }
