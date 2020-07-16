@@ -22,19 +22,26 @@ namespace TheSnakeGame
 
         private void InitializeSnake()
         {
-            this.AddPixel(300, 300);
-            this.AddPixel(300, 320);
-            this.AddPixel(300, 340);
+            PictureBox head;
+            head = new PictureBox();
+            head.Height = 20;
+            head.Width = 20;
+            head.BackColor = Color.Orange;
+            head.Left = 300;
+            head.Top = 300;
+            snakePixels.Add(head);
+            this.AddPixel();
+            this.AddPixel();
         }
-        private void AddPixel(int left, int top)
+        public void AddPixel()
         {
             PictureBox snakePixel;
             snakePixel = new PictureBox();
             snakePixel.Height = 20;
             snakePixel.Width = 20;
-            snakePixel.BackColor = Color.Orange;
-            snakePixel.Left = left;
-            snakePixel.Top = top;
+            snakePixel.BackColor = Color.DarkGreen;
+            snakePixel.Location = snakePixels[snakePixels.Count - 1].Location;
+            snakePixel.BringToFront();
             snakePixels.Add(snakePixel);
         }
         public void Render(Form form)
@@ -57,8 +64,6 @@ namespace TheSnakeGame
             }
             snakePixels[0].Left += this.HorizontalVelocity * this.Step;
             snakePixels[0].Top += this.VerticalVelocity * this.Step;
-
-
         }
 
     }

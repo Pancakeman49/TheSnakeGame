@@ -16,7 +16,9 @@ namespace TheSnakeGame
         Area area = new Area();
         Snake snake = new Snake();
         Timer timerMainMove = new Timer();
-        
+        Food food = new Food();
+        bool lastmove = false;
+
 
         public Game()
         {
@@ -26,13 +28,15 @@ namespace TheSnakeGame
         }
         private void InitializeTimer()
         {
-            timerMainMove.Interval = 100;
+            timerMainMove.Interval = 250;
             timerMainMove.Tick += new EventHandler(TimerMainMove_Tick);
             timerMainMove.Start();
         }
         private void TimerMainMove_Tick(object sender, EventArgs e)
         {
+            lastmove = false;
             snake.Move();
+            Collision();
         }
         private void InitializeGame()
         {
@@ -49,41 +53,63 @@ namespace TheSnakeGame
 
             //keybord press handeler
             this.KeyDown += Game_KeyDown;
+
+            //food stuff 
+            this.Controls.Add(food);
+            food.BringToFront();
+            food.Randomize();
         }
         private void Game_KeyDown(object sender, KeyEventArgs e)
         {
-            switch (e.KeyCode)
+            if (!lastmove)
             {
-                case Keys.D:
-                    if (snake.HorizontalVelocity != -1)
-                    {
-                        snake.HorizontalVelocity = 1;
-                        snake.VerticalVelocity = 0;
-                    }
-                    break;
-                case Keys.A:
-                    if (snake.HorizontalVelocity != 1)
-                    {
-                        snake.HorizontalVelocity = -1;
-                        snake.VerticalVelocity = 0;
-                    }
-                    break;
-                case Keys.W:
-                    if (snake.VerticalVelocity != 1)
-                    {
-                        snake.HorizontalVelocity = 0;
-                        snake.VerticalVelocity = -1;
-                    }
-                    break;
-                case Keys.S:
-                    if (snake.VerticalVelocity != -1)
-                    {
-                        snake.HorizontalVelocity = 0;
-                        snake.VerticalVelocity = 1;
-                    }
-                    break;
+                switch (e.KeyCode)
+                {
+                    case Keys.D:
+                        if (snake.HorizontalVelocity != -1)
+                        {
+                            snake.HorizontalVelocity = 1;
+                            snake.VerticalVelocity = 0;
+                        }
+                        lastmove = true;
+                        break;
+                    case Keys.A:
+                        if (snake.HorizontalVelocity != 1)
+                        {
+                            snake.HorizontalVelocity = -1;
+                            snake.VerticalVelocity = 0;
+                        }
+                        lastmove = true;
+                        break;
+                    case Keys.W:
+                        if (snake.VerticalVelocity != 1)
+                        {
+                            snake.HorizontalVelocity = 0;
+                            snake.VerticalVelocity = -1;
+                        }
+                        lastmove = true;
+                        break;
+                    case Keys.S:
+                        if (snake.VerticalVelocity != -1)
+                        {
+                            snake.HorizontalVelocity = 0;
+                            snake.VerticalVelocity = 1;
+                        }
+                        lastmove = true;
+                        break;
+                }
             }
         }
+        private void Collision()
+        {
+            while (snake.snakePixels[0].Bounds.IntersectsWith(food.Bounds))
+            {
+                food.Randomize();
+                snake.AddPixel();
+                snake.Render(this);
+            }
+        }
+
 
     }
 }

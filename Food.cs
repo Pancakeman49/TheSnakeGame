@@ -12,7 +12,6 @@ namespace TheSnakeGame
 {
     class Food : PictureBox
     {
-        Random color = new Random();
         public Food()
         {
             InitilizeFood();
@@ -22,17 +21,23 @@ namespace TheSnakeGame
         {
             this.Width = 20;
             this.Height = 20;
-            this.BackColor = Color.FromArgb(color.Next(0,255), color.Next(0,255), color.Next(0,255));
+            this.BackColor = Color.LightGreen;
         }
-        private int FoodRandomizer()
+        private int Randomizer20()
         {
             Random rand = new Random();
-            int val = rand.Next(100, 500);
+            int number = 0;
+            int times = rand.Next(0, 20);
+            for (int i = 0; i < times; i++)
+            {
+                number += 20;
+            }
+            return number + 100;
+        }
+        public void Randomize()
+        {
+            this.Location = new Point(Randomizer20(), Randomizer20());
 
-            
-            int leftOver = val % 20;
-            int newVal = val + leftOver; 
-            return newVal;
         }
     }
 }
