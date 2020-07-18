@@ -26,18 +26,14 @@ namespace TheSnakeGame
         private int Randomizer20()
         {
             Random rand = new Random();
-            int number = 0;
-            int times = rand.Next(0, 20);
-            for (int i = 0; i < times; i++)
-            {
-                number += 20;
-            }
-            return number + 100;
+            int numbers = 100 + rand.Next(0, 20) * 20;
+            return numbers;
         }
         public void Randomize()
         {
             this.Location = new Point(Randomizer20(), Randomizer20());
 
         }
+
     }
 }

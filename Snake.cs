@@ -30,10 +30,10 @@ namespace TheSnakeGame
             head.Left = 300;
             head.Top = 300;
             snakePixels.Add(head);
-            this.AddPixel();
-            this.AddPixel();
+            this.AddPixel(20);
+            this.AddPixel(20);
         }
-        public void AddPixel()
+        public void AddPixel(int offSetLeft)
         {
             PictureBox snakePixel;
             snakePixel = new PictureBox();
@@ -41,6 +41,7 @@ namespace TheSnakeGame
             snakePixel.Width = 20;
             snakePixel.BackColor = Color.DarkGreen;
             snakePixel.Location = snakePixels[snakePixels.Count - 1].Location;
+            snakePixel.Left += offSetLeft;
             snakePixel.BringToFront();
             snakePixels.Add(snakePixel);
         }

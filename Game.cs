@@ -18,7 +18,7 @@ namespace TheSnakeGame
         Timer timerMainMove = new Timer();
         Food food = new Food();
         bool lastmove = false;
-
+        int score = 0;
 
         public Game()
         {
@@ -37,6 +37,8 @@ namespace TheSnakeGame
             lastmove = false;
             snake.Move();
             Collision();
+            SnakeBorederCollision();
+            Ouroboros();
         }
         private void InitializeGame()
         {
@@ -58,6 +60,9 @@ namespace TheSnakeGame
             this.Controls.Add(food);
             food.BringToFront();
             food.Randomize();
+
+            //score
+            score = 0;
         }
         private void Game_KeyDown(object sender, KeyEventArgs e)
         {
@@ -104,12 +109,52 @@ namespace TheSnakeGame
         {
             while (snake.snakePixels[0].Bounds.IntersectsWith(food.Bounds))
             {
-                food.Randomize();
-                snake.AddPixel();
+                SetFoodLocation();
+                snake.AddPixel(0);
                 snake.Render(this);
+                score += 10;
             }
         }
-
+        private void SetFoodLocation()
+        {
+            bool touch;
+            do
+            {
+                food.Randomize();
+                touch = false;
+                foreach (var sp in snake.snakePixels)
+                {
+                    if (sp.Location == food.Location)
+                    {
+                        touch = true;
+                        break;
+                    }
+                }
+            }
+            while (touch);
+        }
+        private void SnakeBorederCollision()
+        {
+            if (!snake.snakePixels[0].Bounds.IntersectsWith(area.Bounds))
+            {
+                GameOver();
+            }
+        }
+        private void GameOver()
+        {
+            timerMainMove.Stop();
+            MessageBox.Show("Game over! Your score: " + score);
+        }
+        private void Ouroboros()
+        {
+            for (int i = 1; i < snake.snakePixels.Count; i++)
+            {
+                if (snake.snakePixels[0].Bounds.IntersectsWith(snake.snakePixels[i].Bounds))
+                {
+                    GameOver();
+                }
+            }
+        }
 
     }
 }
